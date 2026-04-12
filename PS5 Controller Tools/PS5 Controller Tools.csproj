@@ -20,6 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Assets\Native\SDL2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <TargetPath>SDL2.dll</TargetPath>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8" />
     <PackageReference Include="sdl2.nuget" Version="2.32.8" />
 	<PackageReference Include="HidSharp" Version="2.6.4" />
