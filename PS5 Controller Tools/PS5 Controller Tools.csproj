@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>PS5_Controller_Tools</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Assets\KB13Tran256.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Controller final front.png" />
+    <None Remove="Assets\Controller final top.png" />
+    <None Remove="Assets\KB13Contact.jpg" />
+    <None Remove="Assets\KB13Tran.png" />
+    <None Remove="Assets\KB13Tran256.ico" />
+    <None Remove="Assets\ps1_startup_short.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8" />
+    <PackageReference Include="sdl2.nuget" Version="2.32.8" />
+	<PackageReference Include="HidSharp" Version="2.6.4" />
+	<PackageReference Include="NAudio" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Fichier de test WAVE.CGD2026.wav" />
+    <Resource Include="Assets\Controller final front.png" />
+    <Resource Include="Assets\Controller final top.png" />
+    <Resource Include="Assets\KB13Contact.jpg" />
+    <Resource Include="Assets\KB13Tran.png" />
+    <Resource Include="Assets\KB13Tran256.ico" />
+	<Resource Include="Assets\ps1_startup_short.wav" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,289 @@
+﻿<Window x:Class="PS5_Controller_Tools.ColorToolBox.ColorToolBoxWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Boîte à couleurs"
+        Width="500"
+        Height="332"
+        Background="#F0F0F0"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        SnapsToDevicePixels="True">
+
+    <Grid Width="460"
+          Height="270"
+          VerticalAlignment="Center"
+          HorizontalAlignment="Center">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="34"/>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="34"/>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="106"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- PALETTE DE COULEURS -->
+        <Border Grid.Column="0"
+                Width="250"
+                Height="250"
+                CornerRadius="5"
+                ClipToBounds="True"
+                BorderBrush="#C8D8EC"
+                BorderThickness="1"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+            <Canvas x:Name="ColorPalette"
+                    Width="250"
+                    Height="250"
+                    Background="Transparent"
+                    MouseLeftButtonDown="Palette_MouseLeftButtonDown"
+                    MouseLeftButtonUp="Palette_MouseLeftButtonUp"
+                    MouseMove="Palette_MouseMove">
+
+                <!-- REPERE DE COULEUR CIBLE -->
+                <Ellipse x:Name="PaletteSelectionMarker"
+                         Width="14"
+                         Height="14"
+                         Stroke="#111111"
+                         StrokeThickness="2"
+                         Fill="Transparent"
+                         IsHitTestVisible="False"
+                         Visibility="Collapsed"/>
+            </Canvas>
+        </Border>
+
+        <!-- APERCU DE LA COULEUR -->
+        <Border x:Name="ColorPreview"
+                Grid.Column="2"
+                Width="34"
+                Height="250"
+                Background="White"
+                CornerRadius="5"
+                BorderBrush="#C8D8EC"
+                BorderThickness="1"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+
+        <!-- CURSEUR D'INTENSITE + BULLE -->
+        <Grid x:Name="IntensityHost"
+              Grid.Column="4"
+              Width="34"
+              Height="250"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              SizeChanged="IntensityHost_SizeChanged">
+
+            <Canvas x:Name="IntensityBubbleLayer"
+                    IsHitTestVisible="False"
+                    Panel.ZIndex="5">
+                <Border x:Name="IntensityBubble"
+                        Visibility="Collapsed"
+                        Background="#0070C0"
+                        BorderBrush="#002060"
+                        BorderThickness="1"
+                        CornerRadius="9"
+                        Padding="6,2,6,2">
+                    <TextBlock x:Name="IntensityBubbleText"
+                               Text="100%"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </Canvas>
+
+            <Grid x:Name="IntensityTrackShell"
+                  Width="16"
+                  Height="250"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+                <Border x:Name="IntensityTrack"
+                        Width="6"
+                        Background="#D6E4F5"
+                        CornerRadius="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Stretch"/>
+
+                <Border x:Name="IntensityFill"
+                        Width="6"
+                        Height="0"
+                        Background="#0070C0"
+                        CornerRadius="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"/>
+
+                <Slider x:Name="IntensitySlider"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="50"
+                        SmallChange="1"
+                        LargeChange="10"
+                        TickFrequency="1"
+                        IsMoveToPointEnabled="True"
+                        Orientation="Vertical"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        ValueChanged="IntensityChanged"
+                        PreviewMouseLeftButtonDown="IntensitySlider_PreviewMouseLeftButtonDown"
+                        PreviewMouseLeftButtonUp="IntensitySlider_PreviewMouseLeftButtonUp"
+                        LostMouseCapture="IntensitySlider_LostMouseCapture">
+                    <Slider.Template>
+                        <ControlTemplate TargetType="Slider">
+                            <Grid Background="Transparent">
+                                <Track x:Name="PART_Track"
+                                       Orientation="Vertical">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="Slider.IncreaseLarge"
+                                                      Opacity="0"
+                                                      Background="Transparent"
+                                                      BorderThickness="0"/>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="Slider.DecreaseLarge"
+                                                      Opacity="0"
+                                                      Background="Transparent"
+                                                      BorderThickness="0"/>
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Width="10"
+                                               Height="10">
+                                            <Thumb.Template>
+                                                <ControlTemplate TargetType="Thumb">
+                                                    <Grid>
+                                                        <Ellipse Fill="#0070C0"
+                                                                 Stroke="#002060"
+                                                                 StrokeThickness="1.5"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Thumb.Template>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Slider.Template>
+                </Slider>
+            </Grid>
+        </Grid>
+
+        <!-- CHAMPS DE VALEURS -->
+        <StackPanel Grid.Column="6"
+                    VerticalAlignment="Top">
+
+            <TextBlock Text="Hexadécimal :"
+                       FontSize="12"
+                       Foreground="#FF002060"/>
+            <TextBox x:Name="HexBox"
+                     FontSize="12"
+                     Height="28"
+                     Margin="0,15,0,25"
+                     Padding="8,4,8,4"
+                     Background="White"
+                     Foreground="#FF002060"
+                     BorderBrush="#FF002060"
+                     BorderThickness="1"
+                     MaxLength="7"
+                     Text="#"
+                     TextChanged="HexChanged"
+                     PreviewTextInput="HexBox_PreviewTextInput"
+                     PreviewKeyDown="HexBox_PreviewKeyDown"
+                     SelectionChanged="HexBox_SelectionChanged"
+                     DataObject.Pasting="HexBox_Pasting"/>
+
+            <Border Height="2"
+                    Background="#002060"
+                    Margin="0,0,0,15"/>
+
+            <TextBlock Text="RVB :"
+                       Margin="0,0,0,15"
+                       FontSize="12"
+                       Foreground="#FF002060"/>
+
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="RBox"
+                         Grid.Column="0"
+                         Height="28"
+                         Margin="0,0,0,15"
+                         Padding="8,4,8,4"
+                         Background="White"
+                         Foreground="#FF002060"
+                         BorderBrush="#FF002060"
+                         BorderThickness="1"
+                         FontSize="12"
+                         MaxLength="3"
+                         TextChanged="RgbChanged"
+                         PreviewTextInput="RgbBox_PreviewTextInput"
+                         DataObject.Pasting="RgbBox_Pasting"/>
+                <TextBlock Grid.Column="1"
+                           Margin="8,7,0,0"
+                           Text="Rouge"
+                           VerticalAlignment="Top"
+                           FontSize="10"
+                           Foreground="#FF002060"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="VBox"
+                         Grid.Column="0"
+                         Height="28"
+                         Margin="0,0,0,15"
+                         Padding="8,4,8,4"
+                         Background="White"
+                         Foreground="#FF002060"
+                         BorderBrush="#FF002060"
+                         BorderThickness="1"
+                         FontSize="12"
+                         MaxLength="3"
+                         TextChanged="RgbChanged"
+                         PreviewTextInput="RgbBox_PreviewTextInput"
+                         DataObject.Pasting="RgbBox_Pasting"/>
+                <TextBlock Grid.Column="1"
+                           Margin="8,7,0,0"
+                           Text="Vert"
+                           VerticalAlignment="Top"
+                           FontSize="10"
+                           Foreground="#FF002060"/>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="BBox"
+                         Grid.Column="0"
+                         Height="28"
+                         Margin="0,0,0,15"
+                         Padding="8,4,8,4"
+                         Background="White"
+                         Foreground="#FF002060"
+                         BorderBrush="#FF002060"
+                         BorderThickness="1"
+                         FontSize="12"
+                         MaxLength="3"
+                         TextChanged="RgbChanged"
+                         PreviewTextInput="RgbBox_PreviewTextInput"
+                         DataObject.Pasting="RgbBox_Pasting"/>
+                <TextBlock Grid.Column="1"
+                           Margin="8,7,0,0"
+                           Text="Bleu"
+                           VerticalAlignment="Top"
+                           FontSize="10"
+                           Foreground="#FF002060"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

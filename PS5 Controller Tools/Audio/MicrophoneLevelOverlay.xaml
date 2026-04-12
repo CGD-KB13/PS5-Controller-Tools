@@ -1,0 +1,40 @@
+<UserControl x:Class="PS5_Controller_Tools.Audio.MicrophoneLevelOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Width="78"
+             Height="18">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="MicrophoneIcon"
+                   Grid.Column="0"
+                   Text="🎙️"
+                   FontSize="14"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"
+                   Foreground="#FF1F3B64"/>
+
+        <StackPanel Grid.Column="2"
+                    x:Name="BarsPanel"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right">
+            <Rectangle x:Name="Bar01" Width="3" Height="4" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar02" Width="3" Height="5" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar03" Width="3" Height="6" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar04" Width="3" Height="7" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar05" Width="3" Height="8" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar06" Width="3" Height="9" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar07" Width="3" Height="10" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar08" Width="3" Height="11" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar09" Width="3" Height="12" Margin="0,0,1,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+            <Rectangle x:Name="Bar10" Width="3" Height="13" Margin="0,0,0,0" RadiusX="0.8" RadiusY="0.8" Fill="#FF2D9CDB" Opacity="0.20" VerticalAlignment="Bottom"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,134 @@
+<UserControl x:Class="PS5_Controller_Tools.RippleButtonOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root"
+             IsHitTestVisible="False">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="RippleStoryboard" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetName="Ripple1"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0.55" To="0"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0"/>
+
+            <DoubleAnimation Storyboard.TargetName="RippleScale1"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="0.1" To="1.4"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0"/>
+
+            <DoubleAnimation Storyboard.TargetName="RippleScale1"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="0.1" To="1.4"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0"/>
+
+            <DoubleAnimation Storyboard.TargetName="Ripple2"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0.40" To="0"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.3"/>
+
+            <DoubleAnimation Storyboard.TargetName="RippleScale2"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="0.1" To="1.4"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.3"/>
+
+            <DoubleAnimation Storyboard.TargetName="RippleScale2"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="0.1" To="1.4"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.3"/>
+
+            <DoubleAnimation Storyboard.TargetName="Ripple3"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0.28" To="0"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.6"/>
+
+            <DoubleAnimation Storyboard.TargetName="RippleScale3"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="0.1" To="1.4"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.6"/>
+
+            <DoubleAnimation Storyboard.TargetName="RippleScale3"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="0.1" To="1.4"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.6"/>
+
+            <DoubleAnimation Storyboard.TargetName="Ripple4"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0.18" To="0"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.9"/>
+
+            <DoubleAnimation Storyboard.TargetName="RippleScale4"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="0.1" To="1.4"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.9"/>
+
+            <DoubleAnimation Storyboard.TargetName="RippleScale4"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="0.1" To="1.4"
+                             Duration="0:0:1.5"
+                             BeginTime="0:0:0.9"/>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid>
+        <Ellipse x:Name="MainEllipse"
+                 Width="{Binding ActualWidth, ElementName=Root}"
+                 Height="{Binding ActualHeight, ElementName=Root}"
+                 Fill="{Binding AccentFill, ElementName=Root}"
+                 Opacity="0"/>
+
+        <Ellipse x:Name="Ripple1"
+                 Width="{Binding ActualWidth, ElementName=Root}"
+                 Height="{Binding ActualHeight, ElementName=Root}"
+                 Fill="{Binding RippleFill1, ElementName=Root}"
+                 Opacity="0"
+                 RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
+                <ScaleTransform x:Name="RippleScale1" ScaleX="0.1" ScaleY="0.1"/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+
+        <Ellipse x:Name="Ripple2"
+                 Width="{Binding ActualWidth, ElementName=Root}"
+                 Height="{Binding ActualHeight, ElementName=Root}"
+                 Fill="{Binding RippleFill2, ElementName=Root}"
+                 Opacity="0"
+                 RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
+                <ScaleTransform x:Name="RippleScale2" ScaleX="0.1" ScaleY="0.1"/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+
+        <Ellipse x:Name="Ripple3"
+                 Width="{Binding ActualWidth, ElementName=Root}"
+                 Height="{Binding ActualHeight, ElementName=Root}"
+                 Fill="{Binding RippleFill3, ElementName=Root}"
+                 Opacity="0"
+                 RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
+                <ScaleTransform x:Name="RippleScale3" ScaleX="0.1" ScaleY="0.1"/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+
+        <Ellipse x:Name="Ripple4"
+                 Width="{Binding ActualWidth, ElementName=Root}"
+                 Height="{Binding ActualHeight, ElementName=Root}"
+                 Fill="{Binding RippleFill4, ElementName=Root}"
+                 Opacity="0"
+                 RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
+                <ScaleTransform x:Name="RippleScale4" ScaleX="0.1" ScaleY="0.1"/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+    </Grid>
+</UserControl>

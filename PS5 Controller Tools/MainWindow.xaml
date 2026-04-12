@@ -1,0 +1,663 @@
+﻿<Window x:Class="PS5_Controller_Tools.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PS5_Controller_Tools"
+        xmlns:audio="clr-namespace:PS5_Controller_Tools.Audio"
+        xmlns:vibration="clr-namespace:PS5_Controller_Tools.Vibration"
+        xmlns:triggers="clr-namespace:PS5_Controller_Tools.Triggers"
+        xmlns:lighting="clr-namespace:PS5_Controller_Tools.Lighting"
+        mc:Ignorable="d"
+        Title="PS5 Controller Tools"
+        Icon="Assets/KB13Tran256.ico"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        Background="#F0F0F0">
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Fichier">
+                <MenuItem Header="Quitter" Click="Quitter_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="Affichage">
+                <MenuItem x:Name="DebugMenuItem"
+                          Header="Debug"
+                          IsCheckable="True"
+                          Click="DebugMenuItem_Click"/>
+                <MenuItem x:Name="SnifferMenuItem"
+                          Header="Sniffer"
+                          IsCheckable="True"
+                          Click="SnifferMenuItem_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="Outils">
+                <MenuItem x:Name="TestSoundMenuItem"
+                          Header="Test son"
+                          Click="TestInternalSpeaker_Click"/>
+                <MenuItem x:Name="ColorToolBoxMenuItem"
+                          Header="Boîte à couleurs"
+                          Click="OpenColorToolBox"/>
+            </MenuItem>
+
+            <MenuItem Header="Paramètre">
+                <MenuItem x:Name="Player1MenuItem"
+                          Header="Player 1"
+                          IsCheckable="True"
+                          Click="Player1MenuItem_Click"/>
+                <MenuItem x:Name="Player2MenuItem"
+                          Header="Player 2"
+                          IsCheckable="True"
+                          Click="Player2MenuItem_Click"/>
+                <MenuItem x:Name="Player3MenuItem"
+                          Header="Player 3"
+                          IsCheckable="True"
+                          Click="Player3MenuItem_Click"/>
+                <MenuItem x:Name="Player4MenuItem"
+                          Header="Player 4"
+                          IsCheckable="True"
+                          Click="Player4MenuItem_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="?">
+                <MenuItem Header="à propos..." Click="APropos_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Border Padding="20">
+            <StackPanel Orientation="Vertical">
+
+                <TextBlock x:Name="StatusText"
+                           Text="Manette : non détectée"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="Red"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+
+                <!-- VUE DU DESSUS -->
+                <Grid Width="600"
+                      HorizontalAlignment="Center">
+
+                    <Image Source="Assets/Controller final top.png"
+                           Stretch="Fill"/>
+
+                    <!-- L1 -->
+                    <local:RippleButtonOverlay x:Name="BtnL1Overlay"
+                                               Width="60"
+                                               Height="60"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="35,118,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- R1 -->
+                    <local:RippleButtonOverlay x:Name="BtnR1Overlay"
+                                               Width="60"
+                                               Height="60"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="510,118,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- L2 -->
+                    <triggers:TriggerPressureOverlay x:Name="BtnL2Overlay"
+                                                  Width="70"
+                                                  Height="70"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Top"
+                                                  Margin="43,7,0,0"/>
+
+                    <!-- R2 -->
+                    <triggers:TriggerPressureOverlay x:Name="BtnR2Overlay"
+                                                  SweepClockwise="False"
+                                                  Width="70"
+                                                  Height="70"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Top"
+                                                  Margin="488,7,0,0"/>
+
+
+                    <triggers:AdaptiveTriggerOverlayLeft x:Name="triggerForceFeedbackL"
+                                                    Width="150"
+                                                    Height="188"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top"
+                                                    Margin="131,10,0,0"
+                                                    LogicalName="triggerForceFeedbackL"
+                                                    Panel.ZIndex="55"/>
+
+                    <triggers:AdaptiveTriggerOverlayRight x:Name="triggerForceFeedbackR"
+                                                    Width="150"
+                                                    Height="188"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top"
+                                                    Margin="330,10,0,0"
+                                                    LogicalName="triggerForceFeedbackR"
+                                                    Panel.ZIndex="55"/>
+                </Grid>
+
+                <!-- VUE DE FACE -->
+                <Grid Width="600"
+                      HorizontalAlignment="Center">
+
+                    <Image Source="Assets/Controller final front.png"
+                           Stretch="Fill"/>
+
+                    <!-- BARRE LUMINEUSE GAUCHE DU PAVE TACTILE -->
+                    <lighting:LightBarBreathingOverlay x:Name="TouchPadLightBarLeftOverlay"
+                                                       Width="4"
+                                                       Height="95"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Top"
+                                                       Margin="173,22,0,0"
+                                                       Panel.ZIndex="58" RenderTransformOrigin="0.5,0.5">
+                        <lighting:LightBarBreathingOverlay.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-12.0"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </lighting:LightBarBreathingOverlay.RenderTransform>
+                    </lighting:LightBarBreathingOverlay>
+
+                    <!-- BARRE LUMINEUSE DROITE DU PAVE TACTILE -->
+                    <lighting:LightBarBreathingOverlay x:Name="TouchPadLightBarRightOverlay"
+                                                       Width="4"
+                                                       Height="95"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Top"
+                                                       Margin="414,22,0,0"
+                                                       Panel.ZIndex="58" RenderTransformOrigin="0.5,0.5">
+                        <lighting:LightBarBreathingOverlay.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="11.029"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </lighting:LightBarBreathingOverlay.RenderTransform>
+                    </lighting:LightBarBreathingOverlay>
+
+                    <!-- DPAD HAUT -->
+                    <local:RippleButtonOverlay x:Name="BtnDpadUpOverlay"
+                                               Width="34"
+                                               Height="40"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="83,55,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- DPAD BAS -->
+                    <local:RippleButtonOverlay x:Name="BtnDpadDownOverlay"
+                                               Width="35"
+                                               Height="40"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="82,119,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- DPAD GAUCHE -->
+                    <local:RippleButtonOverlay x:Name="BtnDpadLeftOverlay"
+                                               Width="40"
+                                               Height="34"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="46,90,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- DPAD DROITE -->
+                    <local:RippleButtonOverlay x:Name="BtnDpadRightOverlay"
+                                               Width="40"
+                                               Height="35"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="113,90,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- CROIX -->
+                    <local:RippleButtonOverlay x:Name="BtnCrossOverlay"
+                                               Width="42"
+                                               Height="42"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="472,130,0,0"
+                                               AccentFill="#44757DE0"
+                                               RippleFill1="#995A60AD"
+                                               RippleFill2="#885A60AD"
+                                               RippleFill3="#775A60AD"
+                                               RippleFill4="#665A60AD"/>
+
+                    <!-- ROND -->
+                    <local:RippleButtonOverlay x:Name="BtnCircleOverlay"
+                                               Width="40"
+                                               Height="40"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="516,87,0,0"
+                                               AccentFill="#44F75F66"
+                                               RippleFill1="#99C34B50"
+                                               RippleFill2="#88C34B50"
+                                               RippleFill3="#77C34B50"
+                                               RippleFill4="#66C34B50"/>
+
+                    <!-- CARRÉ -->
+                    <local:RippleButtonOverlay x:Name="BtnSquareOverlay"
+                                               Width="42"
+                                               Height="41"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="427,86,0,0"
+                                               AccentFill="#44F69CC7"
+                                               RippleFill1="#99C37B9D"
+                                               RippleFill2="#88C37B9D"
+                                               RippleFill3="#77C37B9D"
+                                               RippleFill4="#66C37B9D"/>
+
+                    <!-- TRIANGLE -->
+                    <local:RippleButtonOverlay x:Name="BtnTriangleOverlay"
+                                               Width="41"
+                                               Height="42"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="471,42,0,0"
+                                               AccentFill="#446BE3DE"
+                                               RippleFill1="#9952B0AC"
+                                               RippleFill2="#8852B0AC"
+                                               RippleFill3="#7752B0AC"
+                                               RippleFill4="#6652B0AC"/>
+                    <!-- CREATION -->
+                    <local:RippleButtonOverlay x:Name="BtnCreateOverlay"
+                                               Width="21"
+                                               Height="31"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="137,27,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- OPTIONS -->
+                    <local:RippleButtonOverlay x:Name="BtnOptionsOverlay"
+                                               Width="21"
+                                               Height="31"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="432,27,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- L3 -->
+                    <local:RippleButtonOverlay x:Name="BtnL3Overlay"
+                                               Width="61"
+                                               Height="61"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="160,160,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- R3 -->
+                    <local:RippleButtonOverlay x:Name="BtnR3Overlay"
+                                               Width="61"
+                                               Height="61"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="371,159,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- POINT STICK GAUCHE -->
+                    <Canvas x:Name="LeftStickCanvas"
+                            Width="79"
+                            Height="79"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="151,150,0,0"
+                            IsHitTestVisible="False">
+                        <Ellipse x:Name="LeftStickDot"
+                                 Width="10"
+                                 Height="10"
+                                 Fill="#990070C0"
+                                 Stroke="#DD002060"
+                                 StrokeThickness="1"
+                                 Visibility="Collapsed"/>
+                    </Canvas>
+
+                    <!-- TEXTE STICK GAUCHE -->
+                    <TextBlock x:Name="LeftStickXText"
+                               Text="X=0%"
+                               Width="55"
+                               Height="16"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="135,234,0,0"
+                               Foreground="#FF002060"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               TextAlignment="Center"/>
+
+                    <TextBlock x:Name="LeftStickYText"
+                               Text="Y=0%"
+                               Width="55"
+                               Height="16"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="190,234,0,0"
+                               Foreground="#FF002060"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               TextAlignment="Center" />
+
+                    <!-- POINT STICK DROIT -->
+                    <Canvas x:Name="RightStickCanvas"
+                            Width="79"
+                            Height="79"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="362,150,0,0"
+                            IsHitTestVisible="False">
+                        <Ellipse x:Name="RightStickDot"
+                                 Width="10"
+                                 Height="10"
+                                 Fill="#990070C0"
+                                 Stroke="#DD002060"
+                                 StrokeThickness="1"
+                                 Visibility="Collapsed"/>
+                    </Canvas>
+
+                    <!-- TEXTE STICK DROIT -->
+                    <TextBlock x:Name="RightStickXText"
+                               Text="X=+0%"
+                               Width="56"
+                               Height="16"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="346,234,0,0"
+                               Foreground="#FF002060"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               TextAlignment="Center" />
+
+                    <TextBlock x:Name="RightStickYText"
+                               Text="Y=+0%"
+                               Width="54"
+                               Height="16"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="402,234,0,0"
+                               Foreground="#FF002060"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               TextAlignment="Center" />
+
+                    <!-- CLICK PAVE TACTILE -->
+                    <local:RippleButtonOverlay x:Name="BtnTouchPadOverlay"
+                                               Width="68"
+                                               Height="68"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="260,27,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+
+
+                    <!-- SURFACE TACTILE / SUIVI DU DOIGT -->
+                    <Canvas x:Name="TouchPadCanvas"
+                            Width="285"
+                            Height="130"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="155,5,0,0"
+                            Panel.ZIndex="61"
+                            IsHitTestVisible="False">
+                        <Ellipse x:Name="TouchPadDot"
+                                 Width="10"
+                                 Height="10"
+                                 Fill="#990070C0"
+                                 Stroke="#DD002060"
+                                 StrokeThickness="1"
+                                 Visibility="Collapsed"/>
+                    </Canvas>
+
+                    <!-- BOUTON PS -->
+                    <local:RippleButtonOverlay x:Name="BtnPsOverlay"
+                                               Width="50"
+                                               Height="42"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="270,168,0,0"
+                                               AccentFill="#44002060"
+                                               RippleFill1="#990070C0"
+                                               RippleFill2="#880070C0"
+                                               RippleFill3="#770070C0"
+                                               RippleFill4="#660070C0"/>
+
+                    <!-- LED MICRO MUTE -->
+                    <lighting:BreathingMuteLedOverlay x:Name="MicMuteLedOverlay"
+                                                  Width="35"
+                                                  Height="11"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Top"
+                                                  Margin="278,223,0,0"
+                                                  Panel.ZIndex="62"/>
+
+
+                    <vibration:VibrationMotorOverlay x:Name="controllerVibratorL"
+                                                      Width="84"
+                                                      Height="156"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      Margin="10,230,0,0"
+                                                      LogicalName="controllerVibratorL"
+                                                      MotorSide="Left"
+                                                      BubblePlacement="Right"
+                                                      Panel.ZIndex="55"/>
+
+                    <vibration:VibrationMotorOverlay x:Name="controllerVibratorR"
+                                                      Width="84"
+                                                      Height="156"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      Margin="505,230,0,0"
+                                                      LogicalName="controllerVibratorR"
+                                                      MotorSide="Right"
+                                                      BubblePlacement="Left"
+                                                      Panel.ZIndex="55"/>
+
+                    <local:SpeakerAudioOverlay x:Name="SpeakerAudioOverlayControl"
+                                               Width="300"
+                                               Height="106"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Top"
+                                               Margin="0,260,0,0"
+                                               Panel.ZIndex="50"/>
+
+                    <Border x:Name="ControllerInfoPanel"
+                            Width="300"
+                            Height="28"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Margin="0,370,0,0"
+                            Background="Transparent"
+                            Visibility="Collapsed"
+                            Panel.ZIndex="50">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left">
+                                <Grid Width="24"
+                                      Height="12"
+                                      Margin="0,0,6,0">
+                                    <Border Width="20"
+                                            Height="12"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            CornerRadius="2"
+                                            BorderBrush="#FF6A7890"
+                                            BorderThickness="1"
+                                            Background="Transparent"/>
+
+                                    <Border Width="2"
+                                            Height="6"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Background="#FF6A7890"
+                                            CornerRadius="0,1,1,0"/>
+
+                                    <Rectangle x:Name="BatteryFillRect"
+                                               Width="0"
+                                               Height="8"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Margin="2,0,0,0"
+                                               Fill="#FF3B82F6"
+                                               RadiusX="1"
+                                               RadiusY="1"/>
+                                </Grid>
+
+                                <TextBlock x:Name="BatteryPercentText"
+                                           Text="-- %"
+                                           FontSize="14"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock x:Name="BatteryChargingIcon"
+                                           Text="⚡"
+                                           FontSize="14"
+                                           Margin="5,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Visibility="Collapsed"/>
+                            </StackPanel>
+
+                            <TextBlock x:Name="CurrentPlayerText"
+                                       Grid.Column="1"
+                                       Text="Player : -"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"
+                                       Foreground="#FF1F3B64"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+
+                            <audio:MicrophoneLevelOverlay x:Name="MicrophoneLevelControl"
+                                                          Grid.Column="2"
+                                                          Width="78"
+                                                          Height="18"
+                                                          VerticalAlignment="Center"
+                                                          HorizontalAlignment="Right"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- LED PLAYER -->
+                    <Canvas x:Name="PlayerLedCanvas"
+                            Width="190"
+                            Height="12"
+                            VerticalAlignment="Top"
+                            Margin="201,127,217,0"
+                            IsHitTestVisible="False"
+                            Panel.ZIndex="61">
+
+                        <!-- LED 1 -->
+                        <lighting:BreathingPlayerLedOverlay x:Name="PlayerLedUi1"
+                                  Width="40"
+                                  Height="12"
+                                  Canvas.Left="0"
+                                  Canvas.Top="0"
+                                  Panel.ZIndex="1"/>
+
+                        <!-- LED 2 -->
+                        <lighting:BreathingPlayerLedOverlay x:Name="PlayerLedUi2"
+                                  Width="40"
+                                  Height="12"
+                                  Canvas.Left="50"
+                                  Canvas.Top="0"
+                                  Panel.ZIndex="1"/>
+
+                        <!-- LED 3 -->
+                        <lighting:BreathingPlayerLedOverlay x:Name="PlayerLedUi3"
+                                  Width="40"
+                                  Height="12"
+                                  Canvas.Left="75"
+                                  Canvas.Top="0"
+                                  Panel.ZIndex="2"/>
+
+                        <!-- LED 4 -->
+                        <lighting:BreathingPlayerLedOverlay x:Name="PlayerLedUi4"
+                                  Width="40"
+                                  Height="12"
+                                  Canvas.Left="100"
+                                  Canvas.Top="0"
+                                  Panel.ZIndex="1"/>
+
+                        <!-- LED 5 -->
+                        <lighting:BreathingPlayerLedOverlay x:Name="PlayerLedUi5"
+                                  Width="40"
+                                  Height="12"
+                                  Canvas.Left="150"
+                                  Canvas.Top="0"
+                                  Panel.ZIndex="1"/>
+                    </Canvas>
+
+                    <local:SpeakerWaveVisualizerOverlay x:Name="SpeakerVisualizer"
+                                                        Width="54"
+                                                        Height="24"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top"
+                                                        Margin="268,135,0,0"
+                                                        Panel.ZIndex="60"/>
+
+                </Grid>
+
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</Window>
