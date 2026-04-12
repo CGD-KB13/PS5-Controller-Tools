@@ -1,12 +1,10 @@
-﻿# 🎮 PS5 Controller Tools
-
-Outil de test et de diagnostic pour manette PS5 après réparation.
-
----
+# 🎮 PS5 Controller Tools
 
 ## 📥 Télécharger
 
 👉 https://github.com/CGD-KB13/PS5-Controller-Tools/releases/tag/v1.0.0
+
+Outil de test et de diagnostic pour manette PS5 après réparation.
 
 ---
 
